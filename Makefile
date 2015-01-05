@@ -19,7 +19,7 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 export TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source source/utils source/utils/shared_font
+SOURCES		:=	source source/utils source/utils/shared_font source/utils/savedatacheck
 DATA		:=	data
 INCLUDES	:=	source #include
 
