@@ -22,7 +22,7 @@ int main()
     aptInit();
     hidInit(NULL);
     fsInit();
-    gfxInit();
+    gfxInitDefault();
     gfxSet3D(false);
 
     clearScreens();
