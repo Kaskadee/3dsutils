@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <3ds.h>
 
-#include "output.h"
 #include "utils/shared_font/shared_font.h"
 #include "utils/savedatacheck/savedatacheck.h"
 
@@ -18,24 +17,22 @@ static void (*utils[]) (void) = {
 
 int main()
 {
-    srvInit();
     aptInit();
-    hidInit(NULL);
-    fsInit();
     gfxInitDefault();
-    gfxSet3D(false);
+    consoleInit(GFX_TOP, nullptr);
 
-    clearScreens();
-    print(GFX_TOP, "Press A to begin...\n");
+    consoleClear();
+    printf("Press A to begin...\n");
 
     while (aptMainLoop()) {
-        drawFrames();
+        gfxFlushBuffers();
+        gfxSwapBuffers();
 
         hidScanInput();
         if (hidKeysDown() & KEY_START) {
             break;
         } else if (hidKeysDown() & KEY_A) {
-            clearScreen(GFX_TOP);
+            consoleClear();
 
             if (util_counter < (sizeof(utils) / sizeof(utils[0]))) {
                 utils[util_counter]();
@@ -44,19 +41,16 @@ int main()
                 break;
             }
 
-            print(GFX_TOP, "\n");
-            print(GFX_TOP, "Press A to continue...\n");
+            printf("\n");
+            printf("Press A to continue...\n");
         }
 
         gspWaitForEvent(GSPEVENT_VBlank0, false);
     }
 
-    clearScreens();
+    consoleClear();
 
     gfxExit();
-    fsExit();
-    hidExit();
     aptExit();
-    srvExit();
     return 0;
 }

@@ -8,7 +8,6 @@
 
 #include <3ds.h>
 
-#include "output.h"
 #include "utils/shared_font/shared_font.h"
 
 namespace SaveDataCheck {
@@ -34,7 +33,7 @@ void DumpSharedRomFS(u32* archive_binary_lowpath) {
     u8         file_binary_lowpath[20]  = {};
     FS_path    romfs_path               = { PATH_BINARY, 20, file_binary_lowpath };
 
-    print(GFX_TOP, "Dumping SaveDataCheck RomFS (%s)... ", output_file.c_str());
+    printf("Dumping SaveDataCheck RomFS (%s)... ", output_file.c_str());
 
     FSUSER_OpenFileDirectly(NULL, &romfs_handle, savedatacheck_archive, romfs_path, FS_OPEN_READ, FS_ATTRIBUTE_NONE);
     FSFILE_GetSize(romfs_handle, &romfs_size);
@@ -50,9 +49,9 @@ void DumpSharedRomFS(u32* archive_binary_lowpath) {
     fclose(out_file);
 
     if (bytes_written == romfs_size)
-        print(GFX_TOP, "Done!\n");
+        printf("Done!\n");
     else
-        print(GFX_TOP, "Failed!\n");
+        printf("Failed!\n");
 }
 
 void Dump() {
