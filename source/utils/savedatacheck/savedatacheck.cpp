@@ -8,20 +8,29 @@
 
 #include <3ds.h>
 
+#include "fs_common.h"
 #include "utils/shared_font/shared_font.h"
+
+#define TITLE_PATH "/3dsutils/nand/00000000000000000000000000000000/title/"
 
 namespace SaveDataCheck {
 
-std::string BuildSharedRomFSFilename(u32* lowpath) {
+std::string BuildSharedRomFSDirname(u32* lowpath) {
     char* filename_buffer;
-    asprintf(&filename_buffer, "/%08lx%08lx.bin", lowpath[1], lowpath[0]);
+    asprintf(&filename_buffer, "%s/%08lx/%08lx/content/", TITLE_PATH, lowpath[1], lowpath[0]);
     std::string filename(filename_buffer);
     free(filename_buffer);
     return filename;
 }
 
 void DumpSharedRomFS(u32* archive_binary_lowpath) {
-    std::string output_file = BuildSharedRomFSFilename(archive_binary_lowpath);
+    std::string output_dir = BuildSharedRomFSDirname(archive_binary_lowpath);
+    SanitizeSeparators(&output_dir);
+    if (!CreateFullPath(output_dir)) {
+        printf("Creating path (%s) failed! Aborting!\n", output_dir.c_str());
+        return;
+    }
+    std::string output_file = output_dir + "00000000.app.romfs";
 
     // Read RomFS bin from SaveDataCheck...
 

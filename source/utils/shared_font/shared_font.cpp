@@ -6,16 +6,24 @@
 
 #include <3ds.h>
 
+#include "fs_common.h"
 #include "utils/shared_font/shared_font.h"
+
+#define SYSDATA_PATH "/3dsutils/sysdata/"
 
 namespace SharedFont {
 
 static const u32 SHARED_FONT_SIZE = 0x300000;
 
 void Dump() {
-    static const char* path = "/shared_font.bin";
+    if (!CreateFullPath(SYSDATA_PATH)) {
+        printf("Creating path (%s) failed! Aborting!\n", SYSDATA_PATH);
+        return;
+    }
+    std::string path = SYSDATA_PATH "/shared_font.bin";
+    SanitizeSeparators(&path);
 
-    printf("Dumping shared system font (%s)... ", path);
+    printf("Dumping shared system font (%s)... ", path.c_str());
 
     // Connect to APT service...
 
@@ -41,7 +49,7 @@ void Dump() {
 
     // Dump shared font to SDMC...
 
-    FILE* out_file = fopen(path, "wb");
+    FILE* out_file = fopen(path.c_str(), "wb");
     size_t bytes_written = fwrite(shared_font_addr, 1, SHARED_FONT_SIZE, out_file);
     fclose(out_file);
 
