@@ -38,13 +38,13 @@ void DumpSharedRomFS(u32* archive_binary_lowpath) {
     u64    romfs_size        = 0;
     u32    romfs_bytes_read  = 0;
 
-    FS_archive savedatacheck_archive    = { 0x2345678a, { PATH_BINARY, 16, (u8*)archive_binary_lowpath } };
+    FS_Archive savedatacheck_archive    = { 0x2345678a, { PATH_BINARY, 16, (u8*)archive_binary_lowpath } };
     u8         file_binary_lowpath[20]  = {};
-    FS_path    romfs_path               = { PATH_BINARY, 20, file_binary_lowpath };
+    FS_Path    romfs_path               = { PATH_BINARY, 20, file_binary_lowpath };
 
     printf("Dumping SaveDataCheck RomFS (%s)... ", output_file.c_str());
 
-    FSUSER_OpenFileDirectly(NULL, &romfs_handle, savedatacheck_archive, romfs_path, FS_OPEN_READ, FS_ATTRIBUTE_NONE);
+    FSUSER_OpenFileDirectly(&romfs_handle, savedatacheck_archive, romfs_path, FS_OPEN_READ, 0);
     FSFILE_GetSize(romfs_handle, &romfs_size);
 
     std::unique_ptr<u8> romfs_data_buffer(new u8[romfs_size]);
