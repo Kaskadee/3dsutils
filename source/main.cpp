@@ -45,7 +45,7 @@ int main()
             printf("Press A to continue...\n");
         }
 
-        gspWaitForEvent(GSPEVENT_VBlank0, false);
+        gspWaitForEvent(GSPGPU_EVENT_VBlank0, false);
     }
 
     consoleClear();
