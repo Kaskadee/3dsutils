@@ -9,7 +9,6 @@
 #include <3ds.h>
 
 #include "fs_common.h"
-#include "utils/shared_font/shared_font.h"
 
 #define TITLE_PATH "/3dsutils/nand/00000000000000000000000000000000/title/"
 
@@ -75,6 +74,10 @@ void Dump() {
     // savedatacheck/0004009b00010402.bin
     u64 binary_lowpath_0004009b00010402[] = { 0x0004009b00010402, 0x00000001ffffff00 };
     DumpSharedRomFS((u32*)binary_lowpath_0004009b00010402);
+
+    // savedatacheck/0004009b00014002.bin
+    u64 binary_lowpath_0004009b00014002[] = { 0x0004009b00014002, 0x00000001ffffff00 };
+    DumpSharedRomFS((u32*)binary_lowpath_0004009b00014002);
 }
 
 } // namespace
