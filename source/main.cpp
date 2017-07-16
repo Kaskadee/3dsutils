@@ -6,12 +6,10 @@
 #include <stdio.h>
 #include <3ds.h>
 
-#include "utils/shared_font/shared_font.h"
 #include "utils/savedatacheck/savedatacheck.h"
 
 static unsigned int util_counter = 0;
 static void (*utils[]) (void) = {
-    SharedFont::Dump,
     SaveDataCheck::Dump,
 };
 
