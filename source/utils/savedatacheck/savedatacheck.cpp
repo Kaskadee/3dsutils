@@ -78,6 +78,18 @@ void Dump() {
     // savedatacheck/0004009b00014002.bin
     u64 binary_lowpath_0004009b00014002[] = { 0x0004009b00014002, 0x00000001ffffff00 };
     DumpSharedRomFS((u32*)binary_lowpath_0004009b00014002);
+    
+    // savedatacheck/0004009b00014102.bin
+    u64 binary_lowpath_0004009b00014102[] = { 0x0004009b00014102, 0x00000001ffffff00 };
+    DumpSharedRomFS((u32*)binary_lowpath_0004009b00014102);
+    
+    // savedatacheck/0004009b00014202.bin
+    u64 binary_lowpath_0004009b00014202[] = { 0x0004009b00014202, 0x00000001ffffff00 };
+    DumpSharedRomFS((u32*)binary_lowpath_0004009b00014202);
+    
+    // savedatacheck/0004009b00014302.bin
+    u64 binary_lowpath_0004009b00014302[] = { 0x0004009b00014302, 0x00000001ffffff00 };
+    DumpSharedRomFS((u32*)binary_lowpath_0004009b00014302);
 }
 
 } // namespace
