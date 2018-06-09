@@ -2,10 +2,6 @@
 .SUFFIXES:
 #---------------------------------------------------------------------------------
 
-ifeq ($(strip $(DEVKITARM)),)
-$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
-endif
-
 TOPDIR ?= $(CURDIR)
 include $(DEVKITARM)/3ds_rules
 
@@ -21,7 +17,7 @@ export TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source source/utils source/utils/shared_font source/utils/savedatacheck
 DATA		:=	data
-INCLUDES	:=	source #include
+INCLUDES	:=	source ctrulib/libctru/include
 
 
 #---------------------------------------------------------------------------------
@@ -47,7 +43,7 @@ LIBS	:= -lctru -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB)
+LIBDIRS	:= $(CURDIR)/ctrulib/libctru
  
   
 #---------------------------------------------------------------------------------

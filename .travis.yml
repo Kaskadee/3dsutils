@@ -1,16 +1,14 @@
 language: cpp
+sudo: required
+services: docker
+
 
 before_install:
-  - wget http://sourceforge.net/projects/devkitpro/files/Automated%20Installer/devkitARMupdate.pl
-  - export DEVKITPRO=/home/travis/devkitPro
-  - export DEVKITARM=${DEVKITPRO}/devkitARM
   - git clone https://github.com/smealum/ctrulib
 
 install:
-  - sudo perl devkitARMupdate.pl
-  - cd ctrulib/libctru
-  - make
-  - sudo -E make install
+  - docker pull devkitpro/devkitarm
+  - docker run -e ENABLE_COMPATIBILITY_REPORTING -v $TRAVIS_BUILD_DIR/ctrulib:/libctru devkitpro/devkitarm /bin/bash -ex /libctru/.travis/docker.sh
 
 script:
-  - make
+  - docker run -e ENABLE_COMPATIBILITY_REPORTING -v $TRAVIS_BUILD_DIR:/3dsutils devkitpro/devkitarm /bin/bash -ex /3dsutils/docker.sh
