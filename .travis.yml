@@ -2,6 +2,9 @@ language: cpp
 sudo: required
 services: docker
 
+branches:
+  only:
+  - master
 
 before_install:
   - git clone https://github.com/smealum/ctrulib
@@ -12,3 +15,21 @@ install:
 
 script:
   - docker run -e ENABLE_COMPATIBILITY_REPORTING -v $TRAVIS_BUILD_DIR:/3dsutils devkitpro/devkitarm /bin/bash -ex /3dsutils/docker.sh
+
+after_success: source ./.travis-package.sh
+
+before_deploy:
+  - git config --local user.email "travis@travis-ci.org"
+  - git config --local user.name "TravisCI-Deploy"
+  - git tag "$REV_NAME"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: xyCId1n7+iTcwdriZ0LQ45ONY4PnYZxMI1GENcLMBBWiYswiQwfxkBAzFaq8nmw8EI2lMwwFBwcyX6ZWnQ3E4vSWwiy1EslfwuDxGokp0OAywpT8LLUr/iVrzXt9zFo4sD664nnQ9Dy/YYs5DxKM1KneQc+qhy9UMTsQdQt6d4gSFcdwo4OE4bwveTu75DnKqOK0QOpnU3Aokx+3gCAMyn/To5KuVNVr+hzTN8yLTriMfe4nofQFzFHwOZn6y1VxX+uoaEnrDslI1eLWgynpEblHwSEeUwhkIHvkl8BlsSJVX8fFj27FNRkhvtswMZf/kxqGo0bPBPkYZENwhu50zGddRhUxIYpAspu2z9T3hzuU8nx6bi00Ok8OcBj+S5KeOqFRyhFQjrlSA3wUEV/CKqCuvUwK1cM57zjdZEz0KBrgEVNgdxMPPhwg/4WU4Pn31pd7K6dcKj1TDTBMzWfKBQ8GzdcCd2PkmNPUdX5ggm0jN2gGQRm5T4DJDowNLxKZZdEDUE9UpWGwOWfI9dvgnfrZgxjgxHG4LJG1ZUXRiWJNKUF9RiTBUx4rDdYSKf58wjgE6NKWnOV/J7hEgzWfGGUxDLD5ulH8YvLBbm3618C8zTyWofSxw5LXn6Pi7hbnqLJ9C9HwKyCn0yjtxiCXhpK1Y7o/2ybD57cG6EWBhXM=
+  skip_cleanup: true
+  file_glob: true
+  file: "${ARCHIVE_NAME}"
+  on:
+    repo: Kaskadee/3dsutils
+    branch: master
